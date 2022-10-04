@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SOLID
+namespace SOLID.SingleResponsibility
 {
-    public class String
+    public class String : Input
     {
-        public static void Duplicate(string input)
+        public override object Process(string obj)
         {
-            string output = input + input;
-            Console.WriteLine($"\nYour String duplicated is: {output}\n");
+            string output = obj + obj;
+            return output;
+        }
+
+        public override bool Support(string type)
+        {
+            return type == "string";
         }
     }
 }

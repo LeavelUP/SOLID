@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SOLID.SingleResponsibility
 {
-    public class Integer : Input
+    public class Bool : Input
     {
         public override object Process(string obj)
         {
-            int buffer = int.Parse(obj);
-            int output = buffer + 2;
-            return output;
+            return obj == "true";
         }
 
         public override bool Support(string type)
         {
-            return type == "int";
+            return type == "bool";
         }
     }
 }

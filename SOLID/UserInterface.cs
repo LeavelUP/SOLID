@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using SOLID.SingleResponsibility;
 
 namespace SOLID
 {
-    public class UserInterface : IChecker
+    public class UserInterface
     {
         static string input = null;
-        //string inputChecker = new UserInterface();
+        public readonly IInputFactory _inputFactory;
+        public UserInterface(IInputFactory inputFactory)
+        {
+            _inputFactory = inputFactory;
+        }
 
-        public static void GetInput()
+        public void GetInput()
         {
             bool loop = true;
-            while (loop == true)
+            while (loop)
             {
                 Console.WriteLine("Enter an Integer, Decimal, or String to continue:");
                 input = Console.ReadLine();
@@ -28,33 +33,23 @@ namespace SOLID
             }
         }
 
-        private static void UseInput(string input)
+        private void UseInput(string input)
         {
-            IChecker inputChecker = new UserInterface();
-
-            if (inputChecker.Checker(input) == "int")
-            {
-                Integer.Addition(input);
-            }
-            else if (inputChecker.Checker(input) == "float")
-            {
-                Float.Square(input);
-            }
-            else if (inputChecker.Checker(input) == "string")
-            {
-                String.Duplicate(input);
-            }
-            else
-                Console.WriteLine($"Unable to parse {input}");
+            var inputType = Checker(input);
+            var inputName = _inputFactory.GetInput(inputType);
+            var output = inputName.Process(input);
+            Console.WriteLine(output);
         }
 
-        string IChecker.Checker(string input)
+        private string Checker(string input)
         {
             {
                 if (int.TryParse(input, out int _))
                     return "int";
                 else if (float.TryParse(input, out _))
                     return "float";
+                else if (bool.TryParse(input, out _))
+                    return "bool";
                 else
                     return "string";
             }

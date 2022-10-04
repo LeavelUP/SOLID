@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SOLID
+namespace SOLID.SingleResponsibility
 {
-    public class Float
+    public class Float : Input
     {
-        public static void Square(string input)
+        public override object Process(string obj)
         {
-            float buffer = float.Parse(input);
+            float buffer = float.Parse(obj);
             float output = buffer * buffer;
-            Console.WriteLine($"\nYour number squared is: {output}\n");
+            return output;
+        }
+
+        public override bool Support(string type)
+        {
+            return type == "float";
         }
     }
 }
