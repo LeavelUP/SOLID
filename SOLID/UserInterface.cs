@@ -4,9 +4,10 @@ using System.Text;
 
 namespace SOLID
 {
-    public class UserInterface : InputChecker
+    public class UserInterface : IChecker
     {
         static string input = null;
+        //string inputChecker = new UserInterface();
 
         public static void GetInput()
         {
@@ -29,20 +30,34 @@ namespace SOLID
 
         private static void UseInput(string input)
         {
-            if (Checker(input) == "int")
+            IChecker inputChecker = new UserInterface();
+
+            if (inputChecker.Checker(input) == "int")
             {
                 Integer.Addition(input);
             }
-            else if (Checker(input) == "float")
+            else if (inputChecker.Checker(input) == "float")
             {
                 Float.Square(input);
             }
-            else if (Checker(input) == "string")
+            else if (inputChecker.Checker(input) == "string")
             {
                 String.Duplicate(input);
             }
             else
                 Console.WriteLine($"Unable to parse {input}");
+        }
+
+        string IChecker.Checker(string input)
+        {
+            {
+                if (int.TryParse(input, out int _))
+                    return "int";
+                else if (float.TryParse(input, out _))
+                    return "float";
+                else
+                    return "string";
+            }
         }
     }
 }
